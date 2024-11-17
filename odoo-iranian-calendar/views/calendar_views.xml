@@ -1,0 +1,23 @@
+<!-- views/calendar_views.xml -->
+<odoo>
+    <template id="assets_backend" name="Odoo Iranian Calendar" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <!-- بارگذاری اسکریپت برای تبدیل تاریخ میلادی به شمسی -->
+            <script type="text/javascript" src="/odoo_iranian_calendar/static/src/js/iranian_calendar.js"></script>
+        </xpath>
+    </template>
+
+    <record id="view_calendar_event_calendar" model="ir.ui.view">
+        <field name="name">calendar.event.calendar</field>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <calendar js_class="attendee_calendar" string="Meetings" banner_route="/onboarding/calendar" 
+                      date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+                      event_open_popup="true" event_limit="5">
+                <!-- استفاده از فیلتر شمسی برای نمایش تاریخ‌ها -->
+                <field name="start_date_shamsi" t-if="start" t-value="start | to_persian_date"/>
+                <field name="end_date_shamsi" t-if="stop" t-value="stop | to_persian_date"/>
+            </calendar>
+        </field>
+    </record>
+</odoo>
